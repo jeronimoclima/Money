@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
+             x:Class="Money.Views.MainPage"
+             BackgroundColor="#F5F6FA" Title="Finanças">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Gráficos" 
+                     IconImageSource="{FontImage FontFamily=OpenSansSemibold, Glyph='📊', Color=White}"
+                     Clicked="OnEstatisticasClicked" />
+    </ContentPage.ToolbarItems>
+
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="25" Spacing="20">
+
+                <!-- 1. BLOCO DE SALDO (AZUL) -->
+                <Border BackgroundColor="#448AFF" Padding="20">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout>
+                        <Label Text="Saldo Disponível" TextColor="#E3F2FD" FontSize="14"/>
+                        <Label Text="{Binding SaldoGeral, StringFormat='R$ {0:F2}'}" TextColor="White" FontSize="38" FontAttributes="Bold"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- 2. GRÁFICO DE PIZZA -->
+                <Border BackgroundColor="White" Padding="15">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12"/>
+                    </Border.StrokeShape>
+                    <lvc:PieChart Series="{Binding SeriesGraficoPizza}" HeightRequest="200" />
+                </Border>
+
+                <!-- 3. NAVEGAÇÃO DE MESES -->
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                    <Button Text="◀" Clicked="OnMesAnteriorClicked" BackgroundColor="Transparent" TextColor="#448AFF"/>
+                    <Label Text="{Binding MesAnoExtenso}" VerticalOptions="Center" FontAttributes="Bold" FontSize="18" TextColor="#2F3640"/>
+                    <Button Text="▶" Clicked="OnProximoMesClicked" BackgroundColor="Transparent" TextColor="#448AFF"/>
+                </HorizontalStackLayout>
+
+                <!-- 4. CABEÇALHO DAS MOVIMENTAÇÕES (COM SETA VER TUDO) -->
+                <Grid ColumnDefinitions="*, Auto" Margin="0,10,0,0">
+                    <Label Text="Movimentações do Mês" FontSize="18" FontAttributes="Bold" VerticalOptions="Center" TextColor="#2F3640"/>
+                    <Button Grid.Column="1" Text="Ver tudo ➔" Clicked="OnVerTudoClicked" 
+                            BackgroundColor="Transparent" TextColor="#448AFF" FontSize="14"/>
+                </Grid>
+
+                <!-- 5. LISTA DE MOVIMENTAÇÕES (COM DATA E SWIPE PARA EDITAR/EXCLUIR) -->
+                <CollectionView ItemsSource="{Binding TransacoesRecentes}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem Text="Editar" BackgroundColor="Orange" Invoked="OnEditarSwipe" CommandParameter="{Binding .}"/>
+                                        <SwipeItem Text="Excluir" BackgroundColor="Red" Invoked="OnExcluirSwipe" CommandParameter="{Binding .}"/>
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+
+                                <Border Margin="0,5" Padding="15" BackgroundColor="White">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="10"/>
+                                    </Border.StrokeShape>
+                                    <Grid ColumnDefinitions="*, Auto">
+                                        <VerticalStackLayout>
+                                            <Label Text="{Binding Descricao}" FontAttributes="Bold" FontSize="16" TextColor="#2F3640"/>
+                                            <HorizontalStackLayout Spacing="10">
+                                                <Label Text="{Binding Categoria}" FontSize="12" TextColor="Gray"/>
+                                                <!-- Exibição da Data conforme solicitado -->
+                                                <Label Text="{Binding DataExibicao}" FontSize="12" TextColor="#BDC3C7"/>
+                                            </HorizontalStackLayout>
+                                        </VerticalStackLayout>
+
+                                        <Label Grid.Column="1" Text="{Binding Valor, StringFormat='R$ {0:F2}'}"
+                                               TextColor="{Binding CorValor}" VerticalOptions="Center" FontAttributes="Bold"/>
+                                    </Grid>
+                                </Border>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- RODAPÉ -->
+                <VerticalStackLayout HorizontalOptions="Center" Opacity="0.5" Margin="0,20">
+                    <Label Text="Desenvolvido por Jeronimo Cruz" FontSize="10"/>
+                    <Label Text="JCTecnology © 2026" FontSize="9" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- BOTÃO FLUTUANTE ADICIONAR -->
+        <Button Text="+" Clicked="OnNovoClicked" BackgroundColor="#448AFF" TextColor="White"
+                HeightRequest="60" WidthRequest="60" CornerRadius="30"
+                HorizontalOptions="End" VerticalOptions="End" Margin="30"/>
+    </Grid>
+</ContentPage>

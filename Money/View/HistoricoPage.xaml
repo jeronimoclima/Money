@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Money.Views.HistoricoPage"
+             Title="Todas as Movimentações"
+             BackgroundColor="#F5F6FA">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="10">
+            <CollectionView ItemsSource="{Binding Transacoes}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="0,5" Padding="15" BackgroundColor="White">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10"/>
+                            </Border.StrokeShape>
+                            <Grid ColumnDefinitions="*, Auto">
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding Descricao}" FontAttributes="Bold" TextColor="#2F3640"/>
+                                    <Label Text="{Binding Categoria}" FontSize="12" TextColor="Gray"/>
+                                    <Label Text="{Binding DataExibicao}" FontSize="10" TextColor="#BDC3C7"/>
+                                </VerticalStackLayout>
+                                <Label Grid.Column="1" Text="{Binding Valor, StringFormat='R$ {0:F2}'}" 
+                                       TextColor="{Binding CorValor}" VerticalOptions="Center" FontAttributes="Bold"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Money.Views.NovaTransacaoPage"
+             Title="Nova Movimentação"
+             BackgroundColor="#F5F6FA">
+
+    <VerticalStackLayout Padding="25" Spacing="20">
+
+        <Label Text="Tipo de Movimentação" FontAttributes="Bold" TextColor="#2F3640"/>
+
+        <!-- Seleção de Tipo (Botões) -->
+        <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+            <Button x:Name="btnReceita" 
+                    Text="💰 Receita" 
+                    BackgroundColor="#EEF7EE" 
+                    TextColor="Green" 
+                    FontAttributes="Bold"
+                    BorderColor="Green" 
+                    BorderWidth="1"
+                    Clicked="OnTipoSelected"/>
+
+            <Button x:Name="btnDespesa" 
+                    Grid.Column="1" 
+                    Text="💸 Despesa" 
+                    BackgroundColor="#FEEEEE" 
+                    TextColor="Red" 
+                    FontAttributes="Bold"
+                    BorderColor="Red" 
+                    BorderWidth="1"
+                    Clicked="OnTipoSelected"/>
+        </Grid>
+
+        <!-- Campos de Entrada -->
+        <VerticalStackLayout x:Name="LayoutCampos" Spacing="15">
+            <Label Text="Detalhes" FontAttributes="Bold" TextColor="#2F3640"/>
+
+            <Entry x:Name="txtDescricao" Placeholder="Descrição (ex: Aluguel, Salário)"/>
+
+            <Entry x:Name="txtValor" Placeholder="Valor (R$)" Keyboard="Numeric"/>
+
+            <Label Text="Categoria" FontAttributes="Bold" TextColor="#2F3640"/>
+            <Picker x:Name="pckCategoria" Title="Selecione a categoria" />
+
+            <Button Text="Salvar Movimentação" 
+                    Clicked="OnSalvarClicked"
+                    BackgroundColor="#448AFF" 
+                    TextColor="White" 
+                    HeightRequest="50"
+                    Margin="0,20,0,0"/>
+        </VerticalStackLayout>
+
+    </VerticalStackLayout>
+</ContentPage>
